@@ -10,6 +10,10 @@
  </head>
  <style>
     *{margin:0;padding:0;}
+	a:link {text-decoration: none;}
+    a:visited {color:white;text-decoration:none;}
+    a:hover  {color:white;text-decoration:underline;}
+    a:active {color:white;text-decoration:blink;}
 	#a{
 	    box-shadow:-10px 25px 30px #222;
         margin:80px auto 0;
@@ -17,31 +21,39 @@
 		border-radius:10px;
 		position:static;
 	}
-	#b{
+	#a1{
 	    box-shadow:0 0 10px #222;
 	    margin:30px 120px;
 	    position:fixed;
 	    width:200px;
 	    height:200px;
 	}
-	#b img{
+	#a1 img{
 	    width:200px;
 		height:200px;
 	}
-	#c{
+	#a2{
 	    margin:280px 400px;
 	    position:fixed;
 	}
-	#c ul li{
+	#a2 ul li{
 		color:#ffffff;
         list-style:square;
+	}
+	#a3{
+		width:120px;
+		height:50px;
+		float:right;
+        background-color:#696969;
+		text-align:center;
+	    line-height:50px;
 	}
  </style>
 
  <body>
     <div id="a" style="width:1200px;height:500px;">
-        <div id="b" ><img src="images/001.jpg"></div>
-		<div id="c" style="width:280px;height:200px;">
+        <div id="a1" ><img src="images/001.jpg"></div>
+		<div id="a2" style="width:280px;height:200px;">
 		    <ul>
 			    <li style="font-size:30px">手机号:13529990587</li>
                 <li style="font-size:28px">微信号:yxxyfc</li>
@@ -49,7 +61,11 @@
 				<li style="font-size:22px">万向科技欢迎你的加入</li>
 			</ul>
 		</div>
+		<div id="a3">
+		    <a href="https://quanxiangkeji.github.io/Xuexishiwokuaile/";>&lt回到首页</a>
+		</div>
     </div>
  </body>
 </html>
+
 
