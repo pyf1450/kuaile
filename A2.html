@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+    <head>
+	    <title>雨滴</title>
+	    <meta charset="UTF-8">
+	    <meta name="Keywords" content="关键词">
+	    <meta name="description" content="描述">
+		<style>
+		    *{
+			    margin:0;
+			}
+			#rain{
+			    background:black;
+				display:block;
+				/*width:100%;
+				height:100%;*/
+			}
+		</style>
+	</head>
+
+	<body>
+	    <canvas id="rain"></canvas>
+		<script>
+		    /*
+			    程序逻辑:
+				    1.设置canvas元素的宽高与浏览器一样
+					    1.1获取canvas元素
+						1.2获取浏览器宽高
+						1.3给canvas元素设置宽高
+						1.4设置窗口大小变化的时候,自动调整canvas宽高
+            */
+            //1.设置canvas元素的宽高与浏览器一样
+			var can=document.getElementById("rain");
+			//1.2获取浏览器宽高
+			var w=window.innerWidth;
+			var h=window.innerHeight;
+			//1.3设置canvas宽高
+			can.width=w;
+			can.height=h;
+			//设置窗口大小变化的时候,自动调整canvas宽高
+			window.onresize=function(){
+			    w=window.innerWidth;
+				h=window.innerHeight;
+				can.width=w;
+				can.height=h;
+			}
+            //用canvas绘制图形  canvas画布
+			var canContent=can.getContext("2d");//       拿一张画布
+              //canContent.fillStyle="red";//            设置一个实心的红色的笔   fill填充
+			  //canContent.fillRect(150,150,100,100);//  画一个实心矩形(margin上面, 左边,  width, height)
+			  //canContent.strokeStyle="red";//          设置一个空心的红色的笔 stroke线
+			  //canContent.strokeRect(150,150,50,50);//  画一个空心矩形(margin上面, 左边,  width, height)
+			  //canContent.arc(400,400,50,0,Math.PI*2);//     1.先构思  (x y 半径 绘制起始点 绘制终点)
+			  //canContent.fill();//                          2.画一个实心圆
+			  //canContent.stroke();//                        3.画
+			//在屏幕刷新之前就完成所有的计算和渲染,确保流畅性
+			
+			var y=0;//                    定义y=0
+            
+			/*setInterval(function(){
+				//canContent.clearRect(0,0,w,h);//设置擦除区域(上 左 下 右)
+				canContent.fillStyle="rgba(0,0,0,0.01)";//画一个毛玻璃 透明度0.01
+				canContent.fillRect(0,0,w,h);//设置毛玻璃大小
+			    canContent.fillStyle="#ffffff";
+				canContent.fillRect(150,y++,100,100);//画一个实心矩形 (距离右边为150  Y一直加 宽100 高100)
+			},1000/60)
+            */
+
+			function Rain(){};//生成一个函数  雨滴的样式
+			//var rain=new Rain();//生成一个雨滴
+			function moveRain(){
+			    canContent.fillStyle="rgba(0,0,0,0.15)";
+				canContent.fillRect(0,0,w,h);
+				for(var k=0;k<rainArry.length;k++){
+				    rainArry[k].move();//每一个rainArry中的小雨滴都要move
+				}
+			}
+            
+            function random(min,max){//                 生成一个随机函数 重最小min到最大max  
+			    return Math.random()*(max-min)+min;//   返回一个min和max之间的随机数
+			}
+
+            Rain.prototype={//设置雨滴的样式
+				init:function(){//初始样式
+				    this.x=random(0,w);//设置初始X位置
+					this.y=0;//y轴坐标0
+					this.v=random(4,5);//下落速度
+					this.h=random(0.82*h,0.95*h);//到达位置
+					this.r=1;//起始半径
+                    this.vr=random(1,2);//半径变大速度
+					this.a=1;
+					this.va=0.94;//透明化倍速
+				},
+			    draw:function(){
+					if(this.y<this.h){//     如果  他的Y值小于他的H值
+						canContent.fillStyle="#fff";
+			            canContent.fillRect(this.x,this.y,3,8);
+					}
+				    else{//                  那么   他要画一个圆
+					    canContent.strokeStyle="rgba(255,255,255,"+this.a+")";
+						canContent.beginPath();
+						canContent.arc(this.x,this.y,this.r,0,Math.PI*2);
+						canContent.stroke();
+					}
+				},
+				move:function(){
+					if(this.y<this.h){
+				        this.y+=this.v
+					}
+					else{
+					    if(this.a>0.02){
+						    this.r+=this.vr;
+							this.a*=this.va;
+						}
+						else{
+						    this.init();
+						}
+					}
+					this.draw();
+				}
+			}
+			
+			//复用性
+			var rainArry=[];//            定义对数组访问就能找到rain
+			function createRain(){
+			    var rain=new Rain();
+				rain.init();
+				rain.draw();
+				rainArry.push(rain);//获取数组 rain
+			}
+            for(var i=0;i<80;i++){
+			    setTimeout(createRain,200*i);//200*i--第一个200第二个400....
+			}
+			
+			setInterval(moveRain,1000/60);
+		</script>
+	</body>
+</html>
